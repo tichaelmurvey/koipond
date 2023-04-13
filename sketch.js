@@ -60,7 +60,7 @@ class Fish {
 
     update() {
         //Update position
-        this.position = createVector(this.joints[0].getFrontPos().x, this.joints[0].getFrontPos().y);
+        this.position = normaliseScreenPos(createVector(this.joints[0].getFrontPos().x, this.joints[0].getFrontPos().y));
         //Normalise position to screen locations
         if(this.position )
         if (this.manouver == null) {
@@ -374,18 +374,7 @@ class Joint {
         this.calculateBackPos();
     }
     drawJoint() {
-        let average = createVector(this.frontpos.x, this.frontpos.y)//p5.Vector.add(this.frontpos, this.backpos).div(2);
-        if(average.x < 0){
-            average.x =  average.x % width + width;
-        } else if (average.x > width) {
-            average.x = average.x % width;
-        }
-        if(average.y < 0){
-            average.y = height + average.y % height;
-        } else if (average.y > height) {
-            average.y = average.y % height;
-        }
-
+        let average = normaliseScreenPos(this.frontpos);
         //Head
         if (this.index == 0) {
             let headsize = this.size*0.9;
@@ -653,4 +642,20 @@ let colors = [
         )
     }
     //Single color with accents
+}
+
+
+function normaliseScreenPos(screenPos){
+    let average = createVector(screenPos.x, screenPos.y)//p5.Vector.add(this.frontpos, this.backpos).div(2);
+    if(average.x < 0){
+        average.x =  average.x % width + width;
+    } else if (average.x > width) {
+        average.x = average.x % width;
+    }
+    if(average.y < 0){
+        average.y = height + average.y % height;
+    } else if (average.y > height) {
+        average.y = average.y % height;
+    }
+    return average;
 }
