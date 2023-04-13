@@ -33,7 +33,7 @@ class Fish {
     constructor(x, y) {
         this.joints = [];
         this.size = Math.round(random(30, 50));
-        this.numjoints = Math.round(random(3, 5));
+        this.numjoints = Math.round(random(4, 6));
         this.speed = random(1.3, 2);
         this.turnspeed_default = 0.6;
         this.turnspeed = this.turnspeed_default;
@@ -74,7 +74,7 @@ class Fish {
         if (this.manouver) {
             this.joints[0].swim(this.speed);
             for (let i = 1; i < this.numjoints; i++) {
-                this.joints[i].goto(this.joints[i - 1].getBackPos().x, this.joints[i - 1].getBackPos().y);
+                this.joints[i].goto(this.joints[i - 1].getFrontPos().x, this.joints[i - 1].getFrontPos().y);
             }
         }
         if (this.manouver === "turn") {
@@ -111,8 +111,8 @@ class Fish {
         //     90
         // );
         //Update body
-
-        for (let i = this.joints.length-1; i >= 0; i--) {
+        this.joints[0].show();
+        for (let i = this.joints.length-1; i >= 1; i--) {
             this.joints[i].show();
         }
     }
@@ -281,7 +281,7 @@ class Joint {
         this.angle = 0
         this.velocity = createVector(0, 0);
         //distnace between joints
-        this.len = size*0.8*(1 - i / numjoints);
+        this.len = size*0.7*(1 - i / numjoints);
         this.size = size;
         this.turndrag = 0.03;
         this.calculateBackPos();
@@ -345,13 +345,13 @@ class Joint {
         let target = createVector(x, y);
         let dir = p5.Vector.sub(target, this.frontpos);
         this.angle = dir.heading();
-        dir.setMag(this.len/5);
+        dir.setMag(this.size*0.7);
         dir.mult(-1);
         this.frontpos = p5.Vector.add(target, dir);
         this.calculateBackPos();
     }
     drawJoint() {
-        let average = p5.Vector.add(this.frontpos, this.backpos).div(2);
+        let average = this.frontpos//p5.Vector.add(this.frontpos, this.backpos).div(2);
         //Head
         if (this.index == 0) {
             let headsize = this.size*0.9;
@@ -392,29 +392,28 @@ class Joint {
         //Tail
         else if (this.index == (this.totalnumjoints - 1)) {
             //Tail
-            let jointlength =this.size*(2/this.index)
+            push();
+            let jointlength =this.size*(4/this.index)
             let jointwidth = this.size*(1.5/this.index)
             let finbase = jointwidth/2;
-            let finFlare = finbase*1.8;
-            let finwidth = jointlength/3
-            push();
+            let finFlare = finbase*1.5 + 5;
+            let finwidth = jointlength/2.5;
+            //Trapezoid tail fin
+            fill(this.colors.tail);
             noStroke();
             translate(average.x, average.y);
             rotate(this.angle);
-            fill(this.colors.bodysecondary)    
             rectMode(CENTER);
             rect(0,0, jointlength, jointwidth, 5 ,5 ,5 ,5)
-            //Trapezoid tail fin
-            fill(this.colors.tail);
             quad(
                 //top right
-                -jointlength/2+3, -finbase,
+                finwidth-jointlength/2, -finbase,
                 //bottom right
-                -jointlength/2+3, finbase, 
+                finwidth-jointlength/2, finbase, 
                 //bottom left
-                -jointlength/2-finwidth, finFlare, 
+                -jointlength/2, finFlare, 
                 //top left
-                -jointlength/2-finwidth, -finFlare)
+                -jointlength/2, -finFlare)
             pop();  
         } 
         else {
@@ -429,7 +428,7 @@ class Joint {
                 fill(this.colors.body)
             }
             rectMode(CENTER);
-            rect(0,0, this.size*(2/this.index), this.size*(1.5/this.index), 5 ,5 ,5 ,5)
+            rect(0,0, this.size*(3/this.index), this.size*(1.5/this.index), 5 ,5 ,5 ,5)
             pop();
 
         }
