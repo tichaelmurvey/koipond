@@ -16,7 +16,7 @@ function setup() {
     }
     background(backgroundColor);
     for (let i = 0; i < numFish; i++) {
-        fish.push(new Fish(random(width), height+100));
+        fish.push(new Fish(random(width), 0));
         //fish.push(new Fish(width / 2, height / 2));
     }
 }
@@ -24,6 +24,18 @@ function setup() {
 function draw() {
     if (started) {
     background(backgroundColor);
+        //Pause icon in top right
+        push();
+        noStroke();
+        translate(150, height-200);
+        //Two lines making a very small pause icon
+        fill(255, 255, 255, 100);
+        rect(0, 0, 40, 40);
+        fill(255, 255, 255, 230);
+        rect(10, 5, 5, 30);
+        rect(25, 5, 5, 30);
+        pop();
+
     for (let i = 0; i < food.length; i++) {
         food[i].update();
     }
@@ -297,7 +309,7 @@ class Joint {
         this.totalnumjoints = numjoints;
         this.frontpos = createVector(x-5, y-5);
         this.backpos = createVector(0, 0);
-        this.angle = 0
+        this.angle = random(0, 360)
         this.velocity = createVector(0, 0);
         //distnace between joints
         this.len = size*0.7*(1 - i / numjoints);
@@ -520,15 +532,22 @@ class Food {
 
 //reset destination on click
 function mousePressed() {
-    if(!started){
+
+    //Check if mouse coordinates are within the pause button at (150, height-200);
+    if(mouseX > 150 && mouseX < 150 + 70 && mouseY > height-200 && mouseY < height-200 + 70){
+        started = !started;
+    }
+    else  if(!started){
         started = true;
+        food.push(new Food(mouseX, mouseY));
+    } else {
+        food.push(new Food(mouseX, mouseY));
     }
     //set each fish to move towards the mouse
     // for(let i = 0; i < fish.length; i++){
     //     fish[i].moveTowards(mouseX, mouseY);
     // }
     //Add food at mouse position
-    food.push(new Food(mouseX, mouseY));
 }
 
 //Fish colours 
