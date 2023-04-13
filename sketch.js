@@ -4,15 +4,19 @@ let food = [];
 let numFish = 12;
 let biteDistance = 30;
 let huntDistance = 300;
-let smellDistance = 600;
+let smellDistance = 10000;
 let started = false;
-
+let scaleFactor = 1;
 function setup() {
     angleMode(DEGREES);
-    createCanvas(windowWidth, windowHeight);
+    createCanvas(windowWidth+200, windowHeight+200);
+    if(width < 1000){
+        scaleFactor = 0.7;
+        numFish = 6;
+    }
     background(backgroundColor);
     for (let i = 0; i < numFish; i++) {
-        fish.push(new Fish(random(width), random([height+100, -height-100])));
+        fish.push(new Fish(random(width), height+100));
         //fish.push(new Fish(width / 2, height / 2));
     }
 }
@@ -32,7 +36,7 @@ function draw() {
 class Fish {
     constructor(x, y) {
         this.joints = [];
-        this.size = Math.round(random(30, 50));
+        this.size = Math.round(random(30, 50))*scaleFactor;
         this.numjoints = Math.round(random(4, 6));
         this.speed = random(1.3, 2);
         this.turnspeed_default = 0.6;
@@ -57,15 +61,30 @@ class Fish {
     update() {
         //Update position
         this.position = createVector(this.joints[0].getFrontPos().x, this.joints[0].getFrontPos().y);
+        //Normalise position to screen locations
+        if(this.position )
         if (this.manouver == null) {
             this.lookForFood();
         }
         if (this.destination == null) {
              this.wander();
         }
-        if (this.closeToEdge()) {
-            this.moveTowards(width / 2 + random(-width / 4, width / 4), height / 2 + random(-height / 4, height / 4));
-        }
+        // if (this.closeToEdge()) {
+        //     this.moveTowards(width / 2 + random(-width / 4, width / 4), height / 2 + random(-height / 4, height / 4));
+        // }
+        // Teleport to the other side if it goes off screen
+        // if (this.position.x > width) {
+        //     this.joints[0].setFrontPos(0, this.position.y);
+        // }
+        // if (this.position.x < 0) {
+        //     this.joints[0].setFrontPos(width, this.position.y);
+        // }
+        // if (this.position.y > height) {
+        //     this.joints[0].setFrontPos(this.position.x, 0);
+        // }
+        // if (this.position.y < 0) {
+        //     this.joints[0].setFrontPos(this.position.x, height);
+        // }
         //Look for food
         //Swim
         if (this.destination) {
@@ -139,7 +158,7 @@ class Fish {
     turn(speed = 1) {
         if (!this.manouver) {
             //this.turnspeed = this.turnspeed_default;
-            //console.log("starting turn at", this.joints[0].angle, "to", this.targetAngle);
+            ////console.log("starting turn at", this.joints[0].angle, "to", this.targetAngle);
             this.manouver = "turn";
             //Find direction to turn
             let currentAngle = this.joints[0].angle;
@@ -150,7 +169,7 @@ class Fish {
             else {
                 this.rotationDirection = -1;
             }
-            //console.log( "current angle", currentAngle, "target angle", this.targetAngle, "degrees", degrees, "rotation direction", this.rotationDirection)    
+            ////console.log( "current angle", currentAngle, "target angle", this.targetAngle, "degrees", degrees, "rotation direction", this.rotationDirection)    
         }
     }
     turnManager() {
@@ -177,35 +196,35 @@ class Fish {
             //Update target angle
             this.targetAngle = getTargetAngle(this.position, this.destination);
             //Check if fish is more than 20 degrees away from target angle
-            //console.log("current angle", this.joints[0].angle, "target angle", this.targetAngle, "degrees", degreesBetween(this.joints[0].angle, this.targetAngle), "rotation direction", this.rotationDirection)
+            ////console.log("current angle", this.joints[0].angle, "target angle", this.targetAngle, "degrees", degreesBetween(this.joints[0].angle, this.targetAngle), "rotation direction", this.rotationDirection)
             //Check if within 50 pixels of destination and need to turn
-            console.log("distance to destination", this.position.dist(this.destination))
+            //console.log("distance to destination", this.position.dist(this.destination))
             if (this.position.dist(this.destination) < huntDistance) {
-                console.log("ON THE HUNT");
+                //console.log("ON THE HUNT");
                 //Check if we've already circled a couple times
                 if (this.circlecounter > 3) {
-                    console.log("circled too much, going straight");
+                    //console.log("circled too much, going straight");
                     this.manouver = "beeline";
                 }
                 //Check if fish is more than 1 degrees away from target angle
                 else if (abs(degreesBetween(this.joints[0].angle, this.targetAngle)) < 3) {
                     //Beeline for the object
-                    console.log("beelining for destination");
+                    //console.log("beelining for destination");
                     this.manouver = "beeline";
                 } else {
                     //Note that we've circled once
                     this.circlecounter++;
-                    console.log("circlecounter", this.circlecounter);
+                    //console.log("circlecounter", this.circlecounter);
                     //Turn towards target angle
                     this.turn();
                 }
             } else {
                 this.circlecounter = 0;
                 if (abs(degreesBetween(this.joints[0].angle, this.targetAngle)) > 3) {
-                    console.log("standard boring turn towards destination");
+                    //console.log("standard boring turn towards destination");
                     this.turn();
                 } else {
-                    console.log("meandering forwards")
+                    //console.log("meandering forwards")
                     this.targetAngle = getTargetAngle(this.position, this.destination) + random(-5, 5);
                     this.turn();
                 }
@@ -213,7 +232,7 @@ class Fish {
         } else {
             //Check if close to target destination
             if (this.position.dist(this.destination) < biteDistance) {
-                console.log("reached destination");
+                //console.log("reached destination");
                 this.turnspeed = this.turnspeed_default;
                 this.destination = null;
                 this.manouver = null;
@@ -221,7 +240,7 @@ class Fish {
                 //Check if touching food
                 for (let i = 0; i < food.length; i++) {
                     if (this.position.dist(food[i].getPosition()) < biteDistance) {
-                        console.log("ate food");
+                        //console.log("ate food");
                         food[i].kill();
                     }
                 }
@@ -297,6 +316,10 @@ class Joint {
     getFrontPos() {
         return this.frontpos;
     }
+    setFrontPos(x, y){
+        this.frontpos.x = x;
+        this.frontpos.y = y;
+    }
     getBackPos() {
         return this.backpos;
     }
@@ -308,7 +331,7 @@ class Joint {
     rotate(rotationAmount, speed, direction) {
         //Check if the fish is turning in the same direction as the previous rotation
         let rotation = rotationAmount * speed * direction
-        //console.log("rotation", rotation, "previous rotation", this.previousRotation)
+        ////console.log("rotation", rotation, "previous rotation", this.previousRotation)
         if (direction == 0) {
             if(abs(this.previousRotation) < 0.2) {
                 this.previousRotation = 0;
@@ -351,7 +374,18 @@ class Joint {
         this.calculateBackPos();
     }
     drawJoint() {
-        let average = this.frontpos//p5.Vector.add(this.frontpos, this.backpos).div(2);
+        let average = createVector(this.frontpos.x, this.frontpos.y)//p5.Vector.add(this.frontpos, this.backpos).div(2);
+        if(average.x < 0){
+            average.x =  average.x % width + width;
+        } else if (average.x > width) {
+            average.x = average.x % width;
+        }
+        if(average.y < 0){
+            average.y = height + average.y % height;
+        } else if (average.y > height) {
+            average.y = average.y % height;
+        }
+
         //Head
         if (this.index == 0) {
             let headsize = this.size*0.9;

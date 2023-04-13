@@ -2,7 +2,18 @@ body, html{
     margin: 0;
     padding: 0;
 }
+
+main{
+    width: 100vw;
+    height: 100vh;
+    display: relative;
+    overflow: hidden;
+}
 canvas {
+    position: absolute;
+    top: -200px;
+    left: -200px;
     display: block;
+    overflow: hidden;
     cursor: url("https://img.icons8.com/external-photo3ideastudio-lineal-color-photo3ideastudio/64/000000/external-fish-food-pet-shop-photo3ideastudio-lineal-color-photo3ideastudio.png"), pointer;
 }
