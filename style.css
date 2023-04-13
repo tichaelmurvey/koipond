@@ -1,18 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap');
+
 body, html{
     margin: 0;
     padding: 0;
-}
-
-main{
+    font-family: 'Lato', sans-serif;
     width: 100vw;
     height: 100vh;
     display: relative;
     overflow: hidden;
+    background-color: "#006aa3";
+
 }
+
 canvas {
     position: relative;
     top: -100px;
     left: -100px;
     display: block;
     cursor: url("https://img.icons8.com/external-photo3ideastudio-lineal-color-photo3ideastudio/64/000000/external-fish-food-pet-shop-photo3ideastudio-lineal-color-photo3ideastudio.png"), pointer;
+}
+
+.links{
+    background-color: #ffffffaa;
+    padding: 20px;
+    border-radius: 15px;
+    border: none;
+
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1;
+    font-size: 1rem !important;
+}
+
+.bmc-btn{
+    font-size: 1rem !important;
+    min-width: 0 !important;
+    padding: 0 10px !important;
+    color: white !important;
+}
+
+a, a:visited{
+    color: #ac1818;
 }
