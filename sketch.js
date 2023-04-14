@@ -8,6 +8,7 @@ let smellDistance = 10000;
 let started = false;
 let scaleFactor = 1;
 function setup() {
+    pixelDensity(1)
     angleMode(DEGREES);
     createCanvas(windowWidth+200, windowHeight+200);
     if(width < 1000){
