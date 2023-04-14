@@ -10,10 +10,13 @@ let scaleFactor = 1;
 function setup() {
     pixelDensity(1)
     angleMode(DEGREES);
-    createCanvas(windowWidth+200, windowHeight+200);
-    if(width < 1000){
+    if(displayWidth < 1000){
         scaleFactor = 0.7;
-        numFish = 6;
+        numFish = 8;
+        createCanvas(displayWidth+200, displayHeight+200);
+        console.log(width)
+    } else {
+        createCanvas(displayWidth+200, displayWidth+200);
     }
     background(backgroundColor);
     for (let i = 0; i < numFish; i++) {

@@ -4,12 +4,14 @@ body, html{
     margin: 0;
     padding: 0;
     font-family: 'Lato', sans-serif;
-    width: 100vw;
-    height: 100vh;
-    display: relative;
-    overflow: hidden;
     background-color: "#006aa3";
 
+}
+main {
+    display: relative;
+    width: 100vw;
+    height: 100vh;
+   overflow: hidden;
 }
 
 canvas {
@@ -32,6 +34,22 @@ canvas {
     z-index: 1;
     font-size: 1rem !important;
 }
+
+@media  screen and (max-width: 600px) {
+    body {
+        display: flex;
+        flex-direction: column-reverse;
+        justify-content: center;
+    }
+    .links{
+        position: static;
+        text-align: center;
+    }
+    .bmc-btn{
+        text-align: left;
+    }
+}
+    
 
 .bmc-btn{
     font-size: 1rem !important;
