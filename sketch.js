@@ -1,7 +1,7 @@
 let backgroundColor = "#006aa3";
 let fish = [];
 let food = [];
-let numFish = 12;
+let numFish = 10;
 let biteDistance = 30;
 let huntDistance = 300;
 let smellDistance = 10000;
@@ -16,7 +16,7 @@ function setup() {
         createCanvas(displayWidth+200, displayHeight+200);
         console.log(width)
     } else {
-        createCanvas(displayWidth+200, displayWidth+200);
+        createCanvas(displayWidth+100, displayHeight+50);
     }
     background(backgroundColor);
     for (let i = 0; i < numFish; i++) {
@@ -54,7 +54,7 @@ class Fish {
         this.joints = [];
         this.size = Math.round(random(30, 50))*scaleFactor;
         this.numjoints = Math.round(random(4, 6));
-        this.speed = random(1.3, 2);
+        this.speed = random(1.6, 2);
         this.turnspeed_default = 0.6;
         this.turnspeed = this.turnspeed_default;
         this.destination = null;
