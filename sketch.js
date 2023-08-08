@@ -569,6 +569,12 @@ let primaryColors = [
     [red, lightred, darkred],
     [red, lightred, darkred],
     [red, lightred, darkred],
+    [red, lightorange, darkorange],
+    [red, lightred, darkorange],
+    [red, lightorange, darkred],
+    [orange, lightorange, darkred],
+    [orange, lightorange, red],
+    [orange, lightred, darkorange],
     [orange, lightorange, darkorange],
     [orange, lightorange, darkorange],
     [orange, lightorange, darkorange],
@@ -634,21 +640,21 @@ let colors = [
         )
         }
     //Mottled fish
-    //Mottled body, consistent head and fins
+    //White body, consistent head and fins
     if(diceroll < 60){
         return (
             {
                 head: primaryColor,
-                body: random([white, random(colors)]),
+                body: white,
                 bodysecondary: secondaryColor,
                 tail: tertiaryColor,
                 fin: tertiaryColor
             }
         )
     }
-    //Mottled head and fins, consistent body
+    //White head and fins, consistent body
     if(diceroll < 80){
-        let mottle = random([white, random(colors)])
+        let mottle = white
         return (
             {
                 head: mottle,
@@ -659,9 +665,9 @@ let colors = [
             }
         )
     }
-    //Mottled head, body and fins
+    //White head, body and fins
     if(diceroll < 100){
-        let mottle = random([white, random(colors)])
+        let mottle = white
         return (
             {
                 head: mottle,
