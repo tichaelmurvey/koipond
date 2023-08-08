@@ -29,7 +29,7 @@ canvas {
     border-radius: 15px;
     border: none;
     position: fixed;
-    bottom: 20px;
+    bottom: 60px;
     right: 20px;
     z-index: 1;
     font-size: 1rem !important;
@@ -47,6 +47,10 @@ canvas {
     }
     .bmc-btn{
         text-align: left;
+    }
+    .mute button{
+        position: static;
+        margin-top: 10px;
     }
 }
     
@@ -89,4 +93,32 @@ button.hide {
     font-size: 1.2rem;
     font-weight: bold;
     color: #ac1818;
+}
+
+.mute button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1;
+    background-color: #ffffffaa;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 5px;
+    font-size: 1rem;
+    color: #ac1818;
+}
+
+.happyfish {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 1;
+    background-color: #ffffffaa;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 5px;
+    font-size: 1rem;
+    color: black;
 }

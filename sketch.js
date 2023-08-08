@@ -7,7 +7,25 @@ let huntDistance = 300;
 let smellDistance = 10000;
 let started = false;
 let scaleFactor = 1;
+let counter;
+let count = 1;
+//Sounds
+let plop;
+let eat;
+
 function setup() {
+    Howler.volume(0.1);
+    counter = document.querySelector(".count")
+    plop = new Howl(
+        {
+            src: ['public/plop.wav']
+        }
+    )
+    eat = new Howl(
+        {
+            src: ['public/eat.wav']
+        }
+    )
     pixelDensity(1)
     angleMode(DEGREES);
     if(displayWidth < 1000){
@@ -42,7 +60,7 @@ class Fish {
         this.joints = [];
         this.size = Math.round(random(30, 50))*scaleFactor;
         this.numjoints = Math.round(random(4, 6));
-        this.speed = random(1.6, 2);
+        this.speed = random(1.3, 2.3);
         this.turnspeed_default = 0.6;
         this.turnspeed = this.turnspeed_default;
         this.destination = null;
@@ -257,12 +275,16 @@ class Fish {
         //Check if there is food in the area
         let closestFood = null;
         for (let i = 0; i < food.length; i++) {
+            //Check if food is within smell distance
             if (this.position.dist(food[i].getPosition()) < smellDistance) {
-                if (!closestFood) {
-                    closestFood = food[i];
-                } else {
-                    if (this.position.dist(food[i].getPosition()) < this.position.dist(closestFood.getPosition())) {
+                //Check if food's colour matches one of the fish's colours
+                if (Object.values(this.colors).includes(food[i].getColor())) {
+                    if (!closestFood) {
                         closestFood = food[i];
+                    } else {
+                        if (this.position.dist(food[i].getPosition()) < this.position.dist(closestFood.getPosition())) {
+                            closestFood = food[i];
+                        }
                     }
                 }
             }
@@ -501,12 +523,13 @@ class Food {
     constructor(x, y) {
         this.position = createVector(x, y);
         this.size = 5;
+        this.color = random(colors)
     }
     update() {
         this.show()
     }
     show() {
-        fill(255, 0, 0);
+        stroke(this.color);
         ellipse(this.position.x, this.position.y, this.size);
 
     }
@@ -516,9 +539,16 @@ class Food {
     getSize() {
         return this.size;
     }
+    getColor() {
+        return this.color;
+    }
     kill() {
         var i = food.indexOf(this);
         food.splice(i, 1);
+        count = count+1;
+        //update count on html
+        counter.innerHTML = count;
+        eat.play()
     }
 }
 
@@ -527,8 +557,10 @@ function mousePressed() {
     if(!started){
         started = true;
         food.push(new Food(mouseX, mouseY));
+        plop.play();
     } else {
         food.push(new Food(mouseX, mouseY));
+        plop.play();
     }
     //set each fish to move towards the mouse
     // for(let i = 0; i < fish.length; i++){
@@ -538,10 +570,6 @@ function mousePressed() {
 }
 
 //Fish colours 
-
-
-
-function colourFish() {
 
 //Universal colours
 let white = "#FFF6E8"
@@ -592,8 +620,12 @@ let primaryColors = [
 
 
 let colors = [
-    red, lightred, white, lightorange, orange, yellow, lightyellow, darkyellow
+    red, lightred, white, lightorange, orange, yellow, lightyellow, darkyellow, darkorange, darkred, lightpurple, darkpurple, lightblue, darkblue
 ]
+
+function colourFish() {
+
+
     let palette = random(primaryColors);
     const shuffledPalette = palette.sort((a, b) => 0.5 - Math.random());
     let primaryColor = shuffledPalette[0];
@@ -699,4 +731,16 @@ function normaliseScreenPos(screenPos){
 
 function hideBlurb() {
     document.querySelector(".links").style.display = "none";
+}
+
+let muted = false;
+
+function mute(){
+    if(muted == false){
+        Howler.volume(0)
+        muted = true;
+    } else {
+        Howler.volume(0.3)
+        muted = false;
+    }
 }

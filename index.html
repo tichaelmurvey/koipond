@@ -11,6 +11,7 @@
   gtag('config', 'G-P670NLLR9J');
 </script>
     <script src="https://cdn.jsdelivr.net/npm/p5@1.6.0/lib/p5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎏</text></svg>">
     <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎏</text></svg>">
     <link rel="stylesheet" type="text/css" href="style.css">
@@ -33,13 +34,17 @@
     <meta name="twitter:creator" content="@tichaelmurvey">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <title>Koi Pond</title>
-    
-
   </head>
   <body>
     <script src="sketch.js"></script>
+    <div class="mute">
+      <button onclick="mute()">Mute</button>
+    </div>
     <div class="sitelink">
       <a href="https://funwebsite.fun/">funwebsite.fun</a>
+    </div>
+    <div class="happyfish">
+      <span>Fish hapiness: </span><span class="count">1</span>
     </div>
     <div class="links">
       <button class="hide" onclick="hideBlurb()">X</button>
