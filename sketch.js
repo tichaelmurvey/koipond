@@ -1,7 +1,7 @@
 let backgroundColor = "#006aa3";
 let fish = [];
 let food = [];
-let numFish = 16;
+let numFish = 13;
 let biteDistance = 30;
 let huntDistance = 300;
 let smellDistance = 10000;
@@ -41,6 +41,17 @@ function setup() {
         fish.push(new Fish(random(width), 0));
         //fish.push(new Fish(width / 2, height / 2));
     }
+    colors = colors.filter(
+        //Check if color is in fish colors
+        (color) => {
+            for (let i = 0; i < fish.length; i++) {
+                if (Object.values(fish[i].colors).includes(color)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    )
 }
 
 function draw() {
