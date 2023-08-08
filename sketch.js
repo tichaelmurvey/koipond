@@ -28,18 +28,6 @@ function setup() {
 function draw() {
     if (started) {
     background(backgroundColor);
-        //Pause icon in top right
-        push();
-        noStroke();
-        translate(150, height-200);
-        //Two lines making a very small pause icon
-        fill(255, 255, 255, 100);
-        rect(0, 0, 40, 40);
-        fill(255, 255, 255, 230);
-        rect(10, 5, 5, 30);
-        rect(25, 5, 5, 30);
-        pop();
-
     for (let i = 0; i < food.length; i++) {
         food[i].update();
     }
@@ -536,12 +524,7 @@ class Food {
 
 //reset destination on click
 function mousePressed() {
-
-    //Check if mouse coordinates are within the pause button at (150, height-200);
-    if(mouseX > 150 && mouseX < 150 + 70 && mouseY > height-200 && mouseY < height-200 + 70){
-        started = !started;
-    }
-    else  if(!started){
+    if(!started){
         started = true;
         food.push(new Food(mouseX, mouseY));
     } else {
@@ -559,27 +542,52 @@ function mousePressed() {
 
 
 function colourFish() {
-    let red = "#E8494C"
-let lightred = "#FC706A"
-let darkred = "#B5393E"
+
+//Universal colours
 let white = "#FFF6E8"
+
+//Reds and yellows
+let red = "#E8494C"
 let lightorange = "#F79A44"
 let darkorange = "#E66E29"
 let orange = "#F08637"
 let yellow = "#FFBC38"
 let lightyellow = "#FFCC4D"
 let darkyellow = "#F9A12C"
+let lightred = "#FC706A"
+let darkred = "#B5393E"
+
+//Purples and blues
+let lightpurple = "#B39CD0"
+let darkpurple = "#7F5C9A"
+let darkblue = "#004ba3"
+let lightblue = "#4A90E2"
+
 
 let primaryColors = [
     [red, lightred, darkred],
+    [red, lightred, darkred],
+    [red, lightred, darkred],
+    [red, lightred, darkred],
     [orange, lightorange, darkorange],
-    [yellow, lightyellow, darkyellow]
+    [orange, lightorange, darkorange],
+    [orange, lightorange, darkorange],
+    [orange, lightorange, darkorange],
+    [yellow, lightyellow, darkyellow],
+    [yellow, lightyellow, darkyellow],
+    [yellow, lightyellow, darkyellow],
+    [yellow, lightyellow, darkyellow],
+    [darkblue, lightpurple, white],
+    [darkblue, lightblue, white],
+    [darkpurple, lightpurple, white],
+    [darkpurple, lightblue, white],
 ]
+
+
 
 let colors = [
     red, lightred, white, lightorange, orange, yellow, lightyellow, darkyellow
 ]
-
     let palette = random(primaryColors);
     const shuffledPalette = palette.sort((a, b) => 0.5 - Math.random());
     let primaryColor = shuffledPalette[0];
@@ -681,4 +689,8 @@ function normaliseScreenPos(screenPos){
         average.y = average.y % height;
     }
     return average;
+}
+
+function hideBlurb() {
+    document.querySelector(".links").style.display = "none";
 }
