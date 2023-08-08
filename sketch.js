@@ -1,7 +1,7 @@
 let backgroundColor = "#006aa3";
 let fish = [];
 let food = [];
-let numFish = 10;
+let numFish = 16;
 let biteDistance = 30;
 let huntDistance = 300;
 let smellDistance = 10000;
@@ -14,7 +14,7 @@ let plop;
 let eat;
 
 function setup() {
-    Howler.volume(0.1);
+    Howler.volume(0.5);
     counter = document.querySelector(".count")
     plop = new Howl(
         {
@@ -23,14 +23,14 @@ function setup() {
     )
     eat = new Howl(
         {
-            src: ['public/eat.wav']
+            src: ['public/eat.mp3']
         }
     )
     pixelDensity(1)
     angleMode(DEGREES);
     if(displayWidth < 1000){
         scaleFactor = 0.7;
-        numFish = 8;
+        numFish = 10;
         createCanvas(displayWidth+200, displayHeight+200);
         console.log(width)
     } else {
