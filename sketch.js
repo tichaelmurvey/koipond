@@ -564,7 +564,7 @@ class Food {
 }
 
 //reset destination on click
-function mousePressed() {
+function mouseClicked() {
     if(!started){
         started = true;
         food.push(new Food(mouseX, mouseY));
